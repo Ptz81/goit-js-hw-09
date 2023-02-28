@@ -11,7 +11,7 @@ const daysElement = document.querySelector('span[data-days]');
 const hoursElement = document.querySelector('span[data-hours]');
 const minutesElement = document.querySelector('span[data-minutes]');
 const secondsElement = document.querySelector('span[data-seconds]');
-const timerElement = document.querySelector('.timer');
+
 btnElement.disabled = true;
 
 //параметри бібліотеки flatpickr
@@ -72,19 +72,20 @@ btnElement.addEventListener('click', () => {
   let timerId = setInterval(() => {
 
     let deltaTime = new Date(inputElement.value) - new Date();
+
     btnElement.disabled = true;
+
     if (deltaTime >= 0) {
+
       let timerFunction = convertMs(deltaTime);
+
       daysElement.textContent = addLeadingZero(timerFunction.days);
       hoursElement.textContent = addLeadingZero(timerFunction.hours);
       minutesElement.textContent = addLeadingZero(timerFunction.minutes);
       secondsElement.textContent = addLeadingZero(timerFunction.seconds);
-      if (deltaTime <= 10000) {
-        timerElement.style.color = 'green';
-      }
+
     } else {
-      Notiflix.Notify.success('ount has finished');
-      timerElement.style.color = 'black';
+      Notiflix.Notify.success('Count has finished');
       clearInterval(timerId);
     }
 
