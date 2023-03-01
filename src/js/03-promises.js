@@ -20,27 +20,40 @@ const formElem = document.querySelector('.form');
 const delayInputElem = document.querySelector('input[name="delay"]');
 const stepInputElem = document.querySelector('input[name="step"]');
 const amountInputElem = document.querySelector('input[name="amount"]');
+const bntSubmitElem = document.querySelector('button[type="submit"]');
+
+//console.log(bntSubmitElem);
 
 
 
 function createPromise(position, delay) {
-  const shouldResolve = Math.random() > 0.3;
+  const promise = new Promise((resolve, reject) => {
+    setTimeout(()=>{
+       const shouldResolve = Math.random() > 0.3;
   if (shouldResolve) {
-    // Fulfill
+    resolve({position, delay});
   } else {
-    // Reject
+    reject({position, delay});
   }
+    }, delay)
+  })
+  return promise;
 }
-formElem.addEventListener('input', (e) => {
-  e.target
-  createPromise(stepInputElem, delayInputElem)
-})
 
+bntSubmitElem.addEventListener('click', () => {
+  e.preventDefault();
 
-createPromise(2, 1500)
+  const amount = amountInputElem.value;
+  const step = stepInputElem.value;
+  const delay = delayInputElem.value;
+
+  createPromise(2, 1500)
   .then(({ position, delay }) => {
     Notiflix.Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`);
   })
   .catch(({ position, delay }) => {
     Notiflix.Notify.warning(`❌ Rejected promise ${position} in ${delay}ms`);
   });
+})
+
+
