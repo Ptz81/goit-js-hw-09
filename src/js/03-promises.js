@@ -25,7 +25,7 @@ const bntSubmitElem = document.querySelector('button[type="submit"]');
 
 
 
-
+//функція для створення промісу зі значенням обєкту
 function createPromise(position, delay) {
   const promise = new Promise((resolve, reject) => {
     setTimeout(()=>{
@@ -40,16 +40,22 @@ function createPromise(position, delay) {
   return promise;
 }
 
+//слухаємо клік на кнопку
 bntSubmitElem.addEventListener('click', (e) => {
+  //щоб сторінка не перевантажувалась
   e.preventDefault();
 
+  //записуємо значення введених даних
   const amount = amountInputElem.value;
   const step = stepInputElem.value;
   const delay = delayInputElem.value;
 
+  //проходимся по значенню кількості виклику промісу
   for (let i = 0; i < amount; i++){
-    let delayStep = (step + delay) * i;
+    let delayStep = step + (delay * i);
 
+    // викликаємо функцію створення промісу де передаємо дані - кількість разів виклику та крок затримки
+    
     createPromise(i, delayStep)
   .then(({ position, delay }) => {
     Notiflix.Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`);
@@ -59,6 +65,8 @@ bntSubmitElem.addEventListener('click', (e) => {
   });
 
   }
+  //очищаємо форму після сабміту
+  formElem.reset();
 })
 
 
