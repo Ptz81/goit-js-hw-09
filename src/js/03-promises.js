@@ -50,12 +50,13 @@ bntSubmitElem.addEventListener('click', (e) => {
   const step = stepInputElem.value;
   const delay = delayInputElem.value;
 
-  //проходимся по значенню кількості виклику промісу
+  if (amount >= 0 && step > 0 && delay > 0) {
+     //проходимся по значенню кількості виклику промісу
   for (let i = 0; i < amount; i++){
-    let delayStep = step + (delay * i);
+    let delayStep = step * i;
 
     // викликаємо функцію створення промісу де передаємо дані - кількість разів виклику та крок затримки
-    
+
     createPromise(i, delayStep)
   .then(({ position, delay }) => {
     Notiflix.Notify.success(`✅ Fulfilled promise ${position} in ${delay}ms`);
@@ -64,7 +65,11 @@ bntSubmitElem.addEventListener('click', (e) => {
     Notiflix.Notify.warning(`❌ Rejected promise ${position} in ${delay}ms`);
   });
 
+    delayStep += step;
+
   }
+  }
+
   //очищаємо форму після сабміту
   formElem.reset();
 })
